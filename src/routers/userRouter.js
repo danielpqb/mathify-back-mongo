@@ -11,7 +11,6 @@ import {
 } from "../middlewares/userValidationMiddleware.js";
 
 const router = express.Router();
-router.use("/user");
 
 router.get("/me", getUserByToken);
 router.post("/register", signUpValidation, signUp);
