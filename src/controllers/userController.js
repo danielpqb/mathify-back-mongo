@@ -88,4 +88,18 @@ async function getUserByToken(req, res) {
   }
 }
 
-export { signUp, signIn, getUserByToken };
+async function getAll(req, res) {
+  try {
+    const users = await db.collection("users").find().toArray();
+
+    if (!users) {
+      return res.status(401).send("No users data");
+    }
+    
+    res.status(200).send(users);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+}
+
+export { signUp, signIn, getUserByToken, getAll };
