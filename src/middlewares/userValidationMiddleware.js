@@ -14,12 +14,12 @@ function signUpValidation(req, res, next) {
     { abortEarly: false }
   );
   if (validation.error) {
-    const messages = [];
-    validation.error.details.forEach(e => {
-      messages.push(e.message);
+    let message = "";
+    validation.error.details.forEach((e) => {
+      message += e.message + "\n";
     });
 
-    res.status(422).send(messages);
+    res.status(422).send(message);
     return;
   }
   next();
@@ -38,12 +38,12 @@ function signInValidation(req, res, next) {
     { abortEarly: false }
   );
   if (validation.error) {
-    const messages = [];
-    validation.error.details.forEach(e => {
-      messages.push(e.message);
+    let message = "";
+    validation.error.details.forEach((e) => {
+      message += e.message + "\n";
     });
 
-    res.status(422).send(messages);
+    res.status(422).send(message);
     return;
   }
   next();
