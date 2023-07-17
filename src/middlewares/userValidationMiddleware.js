@@ -14,7 +14,12 @@ function signUpValidation(req, res, next) {
     { abortEarly: false }
   );
   if (validation.error) {
-    res.status(422).send(validation.error);
+    const messages = [];
+    validation.error.details.forEach(e => {
+      messages.push(e.message);
+    });
+
+    res.status(422).send(messages);
     return;
   }
   next();
@@ -33,7 +38,12 @@ function signInValidation(req, res, next) {
     { abortEarly: false }
   );
   if (validation.error) {
-    res.status(422).send(validation.error);
+    const messages = [];
+    validation.error.details.forEach(e => {
+      messages.push(e.message);
+    });
+
+    res.status(422).send(messages);
     return;
   }
   next();
