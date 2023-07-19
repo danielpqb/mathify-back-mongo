@@ -1,6 +1,6 @@
 import joi from "joi";
 
-function signUpValidation(req, res, next) {
+function signUpValidation(req: any, res: any, next: any) {
   const schema = joi.object({
     name: joi.string().required(),
     email: joi.string().email().required(),
@@ -25,7 +25,7 @@ function signUpValidation(req, res, next) {
   next();
 }
 
-function signInValidation(req, res, next) {
+function signInValidation(req: any, res: any, next: any) {
   const schema = joi.object({
     email: joi.string().email().required(),
     password: joi.string().required(),

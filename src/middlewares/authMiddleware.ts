@@ -1,6 +1,6 @@
 import { db } from "../database/database.js";
 
-async function userAuthorization(req, res, next){
+async function userAuthorization(req: any, res: any, next: any){
     const { authorization } = req.headers;
     const token = authorization?.replace('Bearer ', '');
 
