@@ -51,6 +51,7 @@ async function signIn(req, res) {
         );
 
       res.status(200).send({
+        message: "You are loged in.",
         token,
         email: user.email,
         name: user.name,
@@ -71,35 +72,27 @@ async function getUserByToken(req, res) {
   const token = authorization?.replace("Bearer ", "");
 
   if (!token) {
-    return res.status(401).send("Invalid token");
+    return res.status(401).send({ message: "Invalid token" });
   }
 
   try {
     const user = await db.collection("users").findOne({ token });
 
     if (!user) {
-      return res.status(401).send("User not found");
+      return res.status(401).send({ message: "User not found" });
     }
-    
+
     delete user.password;
-    res.status(200).send(user);
+    res
+      .status(200)
+      .send({
+        message: "User found with token.",
+        email: user.email,
+        name: user.name,
+      });
   } catch (error) {
     return res.status(500).send(error);
   }
 }
 
-async function getAll(req, res) {
-  try {
-    const users = await db.collection("users").find().toArray();
-
-    if (!users) {
-      return res.status(401).send("No users data");
-    }
-    
-    res.status(200).send(users);
-  } catch (error) {
-    return res.status(500).send(error);
-  }
-}
-
-export { signUp, signIn, getUserByToken, getAll };
+export { signUp, signIn, getUserByToken };
