@@ -1,8 +1,8 @@
-import { db } from "../database/database.js";
+import { db } from "../database/database";
 import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
 
-async function signUp(req, res) {
+async function signUp(req: any, res: any) {
   try {
     //Find user by email
     const user = await db
@@ -26,13 +26,13 @@ async function signUp(req, res) {
       createdAt: new Date(Date.now()),
     });
     res.status(201).send({ message: "User created successfully." });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).send(error.message);
     return;
   }
 }
 
-async function signIn(req, res) {
+async function signIn(req: any, res: any) {
   try {
     //Find user by email
     const user = await db
@@ -61,13 +61,13 @@ async function signIn(req, res) {
       res.status(409).send({ message: "Invalid data." });
       return;
     }
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).send(error.message);
     return;
   }
 }
 
-async function getUserByToken(req, res) {
+async function getUserByToken(req: any, res: any) {
   const { authorization } = req.headers;
   const token = authorization?.replace("Bearer ", "");
 
@@ -83,13 +83,11 @@ async function getUserByToken(req, res) {
     }
 
     delete user.password;
-    res
-      .status(200)
-      .send({
-        message: "User found with token.",
-        email: user.email,
-        name: user.name,
-      });
+    res.status(200).send({
+      message: "User found with token.",
+      email: user.email,
+      name: user.name,
+    });
   } catch (error) {
     return res.status(500).send(error);
   }
