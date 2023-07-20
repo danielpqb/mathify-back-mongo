@@ -1,6 +1,7 @@
+import { NextFunction, Request, Response } from "express";
 import joi from "joi";
 
-function signUpValidation(req: any, res: any, next: any) {
+function signUpValidation(req: Request, res: Response, next: NextFunction) {
   const schema = joi.object({
     name: joi.string().required(),
     email: joi.string().email().required(),
@@ -9,11 +10,8 @@ function signUpValidation(req: any, res: any, next: any) {
 
   const { name, email, password } = req.body;
 
-  const validation = schema.validate(
-    { name, email, password },
-    { abortEarly: false }
-  );
-  if (validation.error) {
+  const validation = schema.validate({ name, email, password }, { abortEarly: false });
+  if (validation.error != null) {
     let message = "";
     validation.error.details.forEach((e) => {
       message += e.message + "\n";
@@ -25,7 +23,7 @@ function signUpValidation(req: any, res: any, next: any) {
   next();
 }
 
-function signInValidation(req: any, res: any, next: any) {
+function signInValidation(req: Request, res: Response, next: NextFunction) {
   const schema = joi.object({
     email: joi.string().email().required(),
     password: joi.string().required(),
@@ -33,11 +31,8 @@ function signInValidation(req: any, res: any, next: any) {
 
   const { email, password } = req.body;
 
-  const validation = schema.validate(
-    { email, password },
-    { abortEarly: false }
-  );
-  if (validation.error) {
+  const validation = schema.validate({ email, password }, { abortEarly: false });
+  if (validation.error != null) {
     let message = "";
     validation.error.details.forEach((e) => {
       message += e.message + "\n";
