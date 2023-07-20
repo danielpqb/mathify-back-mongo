@@ -17,7 +17,7 @@ function signUpValidation(req: Request, res: Response, next: NextFunction) {
       message += e.message + "\n";
     });
 
-    res.status(422).send(message);
+    res.status(422).send({ message: message });
     return;
   }
   next();
@@ -38,7 +38,7 @@ function signInValidation(req: Request, res: Response, next: NextFunction) {
       message += e.message + "\n";
     });
 
-    res.status(422).send(message);
+    res.status(422).send({ message: message });
     return;
   }
   next();

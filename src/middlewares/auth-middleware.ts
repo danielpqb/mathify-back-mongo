@@ -1,27 +1,22 @@
-import { NextFunction, Request, Response } from "express";
-import { db } from "../database/database.js";
+import { NextFunction, Response } from "express";
+import { AuthenticatedRequest } from "../types/User.js";
+import { findUserByToken } from "../services/user-service.js";
+import { invalidTokenError } from "../errors/user-error.js";
 
-async function userAuthorization(req: Request, res: Response, next: NextFunction) {
+export async function userTokenAuthorization(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const { authorization } = req.headers;
   const token = authorization?.replace("Bearer ", "");
 
   if (!token) {
-    return res.status(401).send("Invalid token");
+    throw invalidTokenError();
   }
 
-  try {
-    const user = await db.collection("users").findOne({ token });
+  const user = await findUserByToken(token);
 
-    if (!user) {
-      return res.status(401).send("User not found");
-    }
-    res.locals.user = user;
+  if (!user) {
+    return res.status(401).send({ message: "User not found" });
   }
-  catch (error) {
-    return res.status(500).send(error);
-  }
+  req.user = user;
 
   next();
 }
-
-export { userAuthorization };
