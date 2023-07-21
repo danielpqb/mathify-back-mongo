@@ -15,6 +15,8 @@ export function handleApplicationErrors(
     return res.status(404).send(error);
   case "DuplicatedEmailError":
     return res.status(409).send(error);
+  case "ValidationError":
+    return res.status(422).send(error);
   }
 
   console.error(error.name);
