@@ -23,3 +23,7 @@ export async function postNewUser(name: string, email: string, password: string)
 export async function postLoginUser(email: string, token: string) {
   await db.collection("users").updateOne({ email: email }, { $set: { lastLogin: new Date(Date.now()), token } });
 }
+
+export async function deleteUser(email: string) {
+  await db.collection("users").deleteOne({ email: email });
+}

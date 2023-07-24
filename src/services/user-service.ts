@@ -1,4 +1,10 @@
-import { getUserByEmail, getUserByToken, postLoginUser, postNewUser } from "../repositories/user-repository";
+import {
+  deleteUser,
+  getUserByEmail,
+  getUserByToken,
+  postLoginUser,
+  postNewUser,
+} from "../repositories/user-repository";
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
 import { duplicatedEmailError, incorrectCredentialsError, userNotFoundError } from "../errors/user-error";
@@ -43,4 +49,8 @@ export async function createNewToken(email: string) {
   const token = uuid();
   await postLoginUser(email, token);
   return token;
+}
+
+export async function removeUser(email: string) {
+  await deleteUser(email);
 }

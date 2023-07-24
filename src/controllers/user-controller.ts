@@ -5,6 +5,7 @@ import {
   createNewToken,
   createNewUser,
   findUserByEmail,
+  removeUser,
 } from "../services/user-service";
 import { AuthenticatedRequest, UserDocument } from "../types/User";
 
@@ -33,4 +34,14 @@ export async function getUserByToken(req: AuthenticatedRequest, res: Response) {
     email: user.email,
     name: user.name,
   });
+}
+
+export async function unregisterUser(req: AuthenticatedRequest, res: Response) {
+  const user = req.user as UserDocument;
+  if (user.email === req.body.email) {
+    await removeUser(user.email);
+    return res.status(200).send({
+      message: "User unregistered successfully.",
+    });
+  }
 }
